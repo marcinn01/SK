@@ -1,0 +1,32 @@
+Instrukcja obługi do projektu "Start/stop deamon"
+
+W celu uruchomienia programu w terminalu należy wpisać komendę:
+./serv.sh $x
+lub 
+bash serv.sh $x 
+gdzie $x \in {"start", "stop", "restart", "status", "--help"}
+$x jest to argument przyjmowany przez terminal, wywołujący daną funkcję programu
+
+Uwaga: aby uruchomić server należy wywołać funkcję z maksymalnie jendym argumentem/
+Gdy liczba podanych argumentów będzie większa od 1, program się nie uruchomi, 
+wyświetlona zostanie wówczas przewidziana pomoc
+
+Komenda: "./serv.sh start" lub "bash serv.sh start" uruchamia server, 
+pod warunkiem, że nie był on wcześniej uruchomiony
+
+Komenda: "./serv.sh stop" lub "bash serv.sh stop" zatrzymuje server, 
+pod warunkiem, że był on wcześniej uruchomiony
+
+Komenda: "./serv.sh restart" lub "bash serv.sh restart" restartuje server,
+tj. zatrzymuje server (jeżeli był wcześniej uruchomiony), a następnie ponownie go uruchamia.
+W przypadku wywołania funkcji "restart" bez uruchomionego wcześniej servera
+na ekranie wyświetli się komunikat informujący o tym, że nie można zrestartować servera, 
+ponieważ nie był uruchomiony.
+
+Komenda: "./serv.sh status" lub "bash serv.sh status" informuje o aktualnym statusie servera, 
+tj. jeżeli server jest uruchomiony dostaniemy mówiącą o tym informację, 
+w przeciwnym razie dosatniemy informację o tym, że server nie jest uruchomiony
+
+Dodatkowo: wywołanie komendy "./serv.sh " lub "bash serv.sh " [nie podając argumentu]
+wyświetlone zostaną dostępne opcje programu:
+"Menu: ./serv.sh {start|stop|restart|status|--help}"

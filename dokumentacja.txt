@@ -1,0 +1,58 @@
+Projekt "Start/stop deamon"
+Celem realizowanego projektu jest stworzenie skryptu bash inicjalizującego program 
+służący do zarządzania stanem servera.
+
+Serverem jest tutaj stworzony roboczy program - skrypt bash wykonujący nieskończoną pętlę
+
+Po wpisaniu komendy ./serv.sh bez podania argumentu w terminalu w konsoli
+wyświetli się menu programu:
+////
+Menu: ./serv.sh {start|stop|restart|status|--help}
+////
+Menu programu przewiduje 5 opcji.
+Uruchamianie pożądanej opcji programu odbywa się poprzez wczytanie 
+pierwszego argumentu skryptu bash ($1)
+
+------------------------------------------------------------------------------------------------
+Kolejne pozycje menu:
+* start -> startuje roboczy skrypt "skrypt.sh". Jeżeli "skrypt.sh" jest już uruchomiony 
+to na konsoli wyświetlona zostanie informacja o błędzie "Error: Server jest juz uruchomiony."
+i słyszalny będzie systemowy alert dźwiękowy
+
+* stop -> wyłącza roboczy skrypt "skrypt.sh". Jeżeli "skrypt.sh" nie jest uruchomiony 
+to na konsoli wyświetlona zostanie informacja o błędzie "Error: Server nie jest uruchomiony."
+i słyszalny będzie systemowy alert dźwiękowy
+
+* restart -> stopuje i startuje program. Jeżeli program nie był uruchomiony przed
+wywołaniem polecania restart to na konsoli wyświetlona zostanie informacja o błędzie
+"Ten proces nie jest uruchomiony - nie mozna zrestartowac" 
+i słyszalny będzie systemowy alert dźwiękowy
+
+* status -> wyświetla status programu. Następuje sprawdzenie czy program jest uruchomiony
+poprzez sprawdzenie czy w bazie istnieje jego PID. Jeżeli istnieje zostanie wyświetlona 
+informacja "Server jest uruchomiony.". W przeciwnym przypadku "Server nie jest uruchomiony."
+
+* --help -> wyświetli krótkie informacje o zachowaniu funkcji programu:
+		start - startuje server
+		stop - stopuje server
+		status - podaje status servera
+		restart - restaruje server
+------------------------------------------------------------------------------------------------
+W przypadku czterech pierwszych pozycji menu zostały zastosowane również dodatkowe
+zabezpieczenia na wypadek gdyby proces został "zabity" komendą kill w terminalu.
+W takiej sytuacji stworzony plik "serv.pid" nadal istnieje i przechwuje numer PID
+wywołanego wcześniej procesu. 
+Zabezpieczenie polega na tym, że sprawdza się zawartość pliku "serv.pid"
+i porównuje się ją z numerami PID aktualnych procesów.
+W przypadku istnienia pliku (pustego lub z numerem PID "zabitego" procesu) funkcje
+posiadają odpowiednie instrukcje warunkowe, które powodują skasowanie pliku,
+który przechowuje numer PID niekatywnego (nieistniejącego) procesu.
+------------------------------------------------------------------------------------------------
+Program posiada też zabezpieczenie na wypadek podania argumentów w liczbie przekraczającej 1.
+*Jeżeli komenda wywołująca program zostanie podana bez żadnego arguemntu (if [ $# -eq 0 ]) 
+ wyświetlone zostanie menu programu
+*Jeżeli komenda wywołująca program zostanie podana z jednym argumentem (if [ $# -eq 1 ]) 
+ wywołana zostanie odpowiednia funkcja (w zależności od wyboru), lub w przypadku podania 
+ niezdefiniowanego parametru - zostanie wyświetlone menu programu
+*Jeżeli komenda wywołująca program zostanie podana z argumentami w liczbie większej od 1 (if [ $# -bt 1 ])
+ użytkownik zostanie poinformowany o tym, że podano zbyt wiele argumentów 
